@@ -34,7 +34,7 @@ export default function SlotMachine() {
 
         const unique = new Set(currentSlots);
         if (unique.size === 1) {
-          setResult("\uD83C\uDF89 \u606D\u559C\u4E2D\u734E\uFF01\u4E09\u500B\u4E00\u6A23 \uD83C\uDF89");
+          setResult("Sweet Jackpot! +5");
           setScore((prev) => prev + 5);
 
           const newIcon = currentSlots[0];
@@ -42,35 +42,35 @@ export default function SlotMachine() {
             setUnlockedIcons((prev) => [...prev, newIcon]);
           }
         } else if (unique.size === 2) {
-          setResult("\uD83D\uDC4D \u5DEE\u4E00\u9EDE\uFF01\u4E2D\u4E86\u5169\u500B\u4E00\u6A23\uFF5E");
+          setResult("Almost a Treat! +3");
           setScore((prev) => prev + 3);
         } else {
-          setResult("\uD83D\uDE22 \u6C92\u4E2D\u734E\uFF0C\u518D\u8A66\u4E00\u6B21\uFF01");
+          setResult("No Dessert This Time!");
         }
       }
     }, 100);
   };
 
   return (
-    <div className="min-h-screen bg-[#F0F9F8] flex justify-center items-start gap-10 p-8">
+    <div className="h-screen bg-[#F0F9F8] flex justify-center items-start gap-10 p-8">
       {/* Slot Machine UI */}
       <div className="w-1/2 h-full">
         <div className="bg-[#FFEEF4] border-[0.5px] border-black rounded-md w-full h-full p-4">
-          <div className="bg-[#FFF8F5] border-[0.5px] border-black rounded-t-[100%] w-full h-20 flex items-center justify-center">
+          <div className="bg-[#FFF8F5] border-[0.5px] border-black rounded-t-[100%] w-full h-[120px] flex items-center justify-center">
             <h1 className="text-xl italic text-gray-700">sweet spin</h1>
           </div>
 
-          <div className="bg-[#FDDCE5] border-[0.5px] border-black flex justify-center gap-2 my-4">
+          <div className="h-[40px] bg-[#FDDCE5] border-[0.5px] border-black rounded-[20px] flex justify-center items-center gap-2 my-4">
             {[...Array(5)].map((_, i) => (
-              <div key={i} className="w-3 h-3 bg-[#FFF8F5] rounded-full"></div>
+              <div key={i} className="w-[20px] h-[20px] bg-[#FFF8F5] border-[0.5px] border-black rounded-full"></div>
             ))}
           </div>
 
-          <div className="bg-[#FDDCE5] flex justify-center gap-2 mb-4 text-4xl">
+          <div className="h-[200px] bg-[#FDDCE5] border-[0.5px] border-black rounded-[20px] flex justify-center items-center gap-4 p-4 mb-4 text-4xl">
             {slots.map((icon, index) => (
               <div
                 key={index}
-                className="w-20 h-20 bg-pink-100 rounded flex items-center justify-center"
+                className="w-1/3 h-full bg-[#FFF8F5] border-[0.5px] border-black rounded flex items-center justify-center"
               >
                 {icon}
               </div>
@@ -78,18 +78,20 @@ export default function SlotMachine() {
           </div>
 
           <div className="flex justify-between items-center mb-4 text-sm text-gray-700">
-            <span>{score} 分</span>
+            <span className="w-[80px] h-[40px] bg-[#FFF8F5] border-[0.5px] border-black rounded-[10px] flex justify-center items-center
+            ">{score} 分</span>
             <button
               onClick={spin}
               disabled={spinning}
-              className="px-4 py-1 border rounded bg-pink-50 italic disabled:opacity-50"
+              className="w-[120px] h-[40px] bg-[#FFF8F5] border-[0.5px] border-black rounded-[10px] italic disabled:opacity-50"
             >
-              {spinning ? "轉動中..." : "start"}
+              {spinning ? "spinning..." : "start"}
             </button>
-            <span>{unlockedIcons.length}</span>
+            <span className="w-[80px] h-[40px] bg-[#FFF8F5] border-[0.5px] border-black rounded-[10px] flex justify-center items-center
+            ">{unlockedIcons.length}</span>
           </div>
 
-          <div className="h-20 bg-pink-100 rounded flex items-center justify-center text-center text-sm px-2">
+          <div className="h-[160px] bg-[#FFF8F5] border-[0.5px] border-black rounded-[20px] flex items-center justify-center text-black text-center text-sm px-2">
             {result}
           </div>
         </div>
@@ -97,20 +99,38 @@ export default function SlotMachine() {
       
 
       {/* Icon Record Panel */}
-      <div className="grid grid-cols-2 gap-4 bg-pink-50 p-4 rounded-md">
-        {icons.map((icon, i) => (
-          <div
-            key={i}
-            className={`flex items-center justify-center rounded border w-16 h-16 text-3xl ${
-              unlockedIcons.includes(icon)
-                ? "bg-white border-pink-400"
-                : "bg-gray-300 border-gray-400 text-gray-400"
-            }`}
-          >
-            {icon}
-          </div>
-        ))}
+      <div className="w-1/2 h-full bg-[#FFEEF4] border-[0.5px] border-black p-4 rounded-md space-y-4 overflow-y-auto">
+        {icons.map((icon, i) => {
+          const isUnlocked = unlockedIcons.includes(icon);
+          return (
+            <div
+              key={i}
+              className="flex items-center rounded overflow-hidden p-2 gap-[20px]"
+            >
+              {/* 左側 Icon 區 */}
+              <div
+                className='relative bg-[#FFF8F5] border-[0.5px] border-black flex items-center justify-center w-20 h-20 text-3xl rounded-[10px]'
+              >
+                {icon}
+                {!isUnlocked && (
+                  <div className="absolute inset-0 bg-[#FFF8F5]/60 rounded-[10px] pointer-events-none" />
+                )}
+
+              </div>
+
+              {/* 右側內容區 */}
+              <div className={` border-[0.5px] border-black flex-1 flex justify-center items-center w-20 h-20 text-xl rounded-[10px] text-center ${
+                  isUnlocked
+                    ? "bg-white text-black"
+                    : "bg-[#FDDCE5] text-black"
+                }`}>
+                {isUnlocked ? "冷知識" : "?"}
+              </div>
+            </div>
+          );
+        })}
       </div>
+
     </div>
   );
 }
