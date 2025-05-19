@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
-const icons = ["🍰", "🍩", "🧁", "🍓", "🍦"];
+const icons = ["\uD83C\uDF70", "\uD83C\uDF69", "\uD83E\uDDC1", "\uD83C\uDF53", "\uD83C\uDF66"];
 
 export default function SlotMachine() {
-  const [slots, setSlots] = useState(["🍰", "🍰", "🍰"]);
+  const [slots, setSlots] = useState(["\uD83C\uDF70", "\uD83C\uDF70", "\uD83C\uDF70"]);
   const [result, setResult] = useState("");
   const [spinning, setSpinning] = useState(false);
   const [score, setScore] = useState(0);
@@ -34,68 +34,82 @@ export default function SlotMachine() {
 
         const unique = new Set(currentSlots);
         if (unique.size === 1) {
-          setResult("🎉 恭喜中獎！三個一樣 🎉");
+          setResult("\uD83C\uDF89 \u606D\u559C\u4E2D\u734E\uFF01\u4E09\u500B\u4E00\u6A23 \uD83C\uDF89");
           setScore((prev) => prev + 5);
 
-          // 解鎖圖鑑
           const newIcon = currentSlots[0];
           if (!unlockedIcons.includes(newIcon)) {
             setUnlockedIcons((prev) => [...prev, newIcon]);
           }
-
         } else if (unique.size === 2) {
-          setResult("👍 差一點！中了兩個一樣～");
+          setResult("\uD83D\uDC4D \u5DEE\u4E00\u9EDE\uFF01\u4E2D\u4E86\u5169\u500B\u4E00\u6A23\uFF5E");
           setScore((prev) => prev + 3);
         } else {
-          setResult("😢 沒中獎，再試一次！");
+          setResult("\uD83D\uDE22 \u6C92\u4E2D\u734E\uFF0C\u518D\u8A66\u4E00\u6B21\uFF01");
         }
       }
     }, 100);
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-pink-100 p-6">
-      <h1 className="text-4xl font-bold mb-4 text-pink-600">🍭 甜點拉霸機 🍭</h1>
+    <div className="min-h-screen bg-[#F0F9F8] flex justify-center items-start gap-10 p-8">
+      {/* Slot Machine UI */}
+      <div className="w-1/2 h-full">
+        <div className="bg-[#FFEEF4] border-[0.5px] border-black rounded-md w-full h-full p-4">
+          <div className="bg-[#FFF8F5] border-[0.5px] border-black rounded-t-[100%] w-full h-20 flex items-center justify-center">
+            <h1 className="text-xl italic text-gray-700">sweet spin</h1>
+          </div>
 
-      <div className="text-lg text-pink-800 mb-4">目前分數：{score} 分</div>
+          <div className="bg-[#FDDCE5] border-[0.5px] border-black flex justify-center gap-2 my-4">
+            {[...Array(5)].map((_, i) => (
+              <div key={i} className="w-3 h-3 bg-[#FFF8F5] rounded-full"></div>
+            ))}
+          </div>
 
-      <div className="flex gap-4 mb-6 text-6xl">
-        {slots.map((icon, index) => (
+          <div className="bg-[#FDDCE5] flex justify-center gap-2 mb-4 text-4xl">
+            {slots.map((icon, index) => (
+              <div
+                key={index}
+                className="w-20 h-20 bg-pink-100 rounded flex items-center justify-center"
+              >
+                {icon}
+              </div>
+            ))}
+          </div>
+
+          <div className="flex justify-between items-center mb-4 text-sm text-gray-700">
+            <span>{score} 分</span>
+            <button
+              onClick={spin}
+              disabled={spinning}
+              className="px-4 py-1 border rounded bg-pink-50 italic disabled:opacity-50"
+            >
+              {spinning ? "轉動中..." : "start"}
+            </button>
+            <span>{unlockedIcons.length}</span>
+          </div>
+
+          <div className="h-20 bg-pink-100 rounded flex items-center justify-center text-center text-sm px-2">
+            {result}
+          </div>
+        </div>
+      </div>
+      
+
+      {/* Icon Record Panel */}
+      <div className="grid grid-cols-2 gap-4 bg-pink-50 p-4 rounded-md">
+        {icons.map((icon, i) => (
           <div
-            key={index}
-            className="w-20 h-20 bg-white rounded-2xl shadow-md flex items-center justify-center border-4 border-pink-300"
+            key={i}
+            className={`flex items-center justify-center rounded border w-16 h-16 text-3xl ${
+              unlockedIcons.includes(icon)
+                ? "bg-white border-pink-400"
+                : "bg-gray-300 border-gray-400 text-gray-400"
+            }`}
           >
             {icon}
           </div>
         ))}
-      </div>
-
-      <button
-        onClick={spin}
-        disabled={spinning}
-        className="bg-pink-400 hover:bg-pink-500 text-white px-6 py-2 rounded-xl text-lg shadow-md disabled:opacity-50"
-      >
-        {spinning ? "轉動中..." : "開始拉霸"}
-      </button>
-
-      <div className="mt-6 text-2xl text-pink-700 font-semibold">{result}</div>
-
-      <div className="mt-10 w-full max-w-md">
-        <h2 className="text-xl font-semibold text-pink-600 mb-2">🍬 解鎖圖鑑</h2>
-        <div className="flex flex-wrap gap-2">
-          {icons.map((icon, i) => (
-            <div
-              key={i}
-              className={`w-14 h-14 flex items-center justify-center text-3xl rounded-full border-2 ${
-                unlockedIcons.includes(icon)
-                  ? "bg-white border-pink-400"
-                  : "bg-gray-300 border-gray-400 text-gray-400"
-              }`}
-            >
-              {icon}
-            </div>
-          ))}
-        </div>
       </div>
     </div>
   );
