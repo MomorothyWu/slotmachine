@@ -4,6 +4,12 @@ import { useState } from "react";
 
 const icons = ["🍫", "🍰", "🧁"];
 
+const dessertImages = {
+  "🍫": "/images/chocolate.svg",
+  "🍰": "/images/icecream.svg",
+  "🧁": "/images/cupcake.svg",
+};
+
 const dessertTitle = {
   "🍫": "巧克力 Chocolate",
   "🍰": "冰淇淋 Ice Cream",
@@ -113,9 +119,9 @@ export default function SlotMachine() {
             {slots.map((icon, index) => (
               <div
                 key={index}
-                className="w-1/3 h-full bg-[#FFF8F5] border-[0.5px] border-black rounded flex items-center justify-center"
+                className="w-1/3 h-full bg-[#FFF8F5] border-[0.5px] border-black rounded flex items-center justify-center p-2"
               >
-                {icon}
+                <img src={dessertImages[icon]} alt={dessertTitle[icon]} className="w-full h-full object-contain" />
               </div>
             ))}
           </div>
@@ -176,8 +182,8 @@ export default function SlotMachine() {
                 className="flex items-center rounded overflow-hidden p-2 gap-[20px]"
               >
                 {/* 左側 Icon 區 */}
-                <div className='relative bg-[#FFF8F5] border-[0.5px] border-black flex items-center justify-center w-20 h-20 text-3xl rounded-[10px]'>
-                  {icon}
+                <div className='relative bg-[#FFF8F5] border-[0.5px] border-black flex items-center justify-center w-20 h-20 text-3xl rounded-[10px] p-2'>
+                  <img src={dessertImages[icon]} alt={dessertTitle[icon]} className="w-full h-full object-contain" />
                   {!isUnlocked && (
                     <div className="absolute inset-0 bg-[#FFF8F5]/60 rounded-[10px] pointer-events-none" />
                   )}
