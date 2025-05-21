@@ -101,9 +101,9 @@ export default function SlotMachine() {
   };
 
   return (
-    <div className="h-screen bg-[#F0F9F8] flex justify-center items-start gap-10 p-8">
+    <div className="w-screen min-h-screen bg-[#F0F9F8] flex flex-col sm:flex-row justify-center items-start overflow-auto gap-10 p-8">
       {/* Slot Machine UI */}
-      <div className="w-1/2 h-full">
+      <div className="w-full sm:w-1/2 sm:h-full">
         <div className="bg-[#FFEEF4] border-[0.5px] border-black rounded-md w-full h-full p-4 flex-col justify-center items-center">
           <div className="bg-[#FFF8F5] border-[0.5px] border-black rounded-t-[100%] w-full h-[120px] flex items-center justify-center">
             <h1 className="text-5xl italic text-gray-700">sweet spin</h1>
@@ -148,7 +148,7 @@ export default function SlotMachine() {
       
 
       {/* Icon Record Panel or Detail View */}
-      <div className="w-1/2 h-full bg-[#FFEEF4] border-[0.5px] border-black text-black p-4 rounded-md space-y-4 overflow-y-auto">
+      <div className="w-full sm:w-1/2 sm:h-full bg-[#FFEEF4] border-[0.5px] border-black text-black p-4 rounded-md space-y-4 overflow-y-auto">
         {/* 詳細介紹畫面 */}
         {detailIcon ? (
           <div className="bg-[#FFF8F5] border-[0.5px] border-black rounded-xl flex flex-col h-full p-4">
