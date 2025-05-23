@@ -26,9 +26,9 @@ const dessertSubtitle = {
   "🍫": "苦與甜的完美詐騙",
   "🍦": "夏天的救贖",
   "🧁": "吃兩個剛剛好，吃三個也不罪惡",
-  "🍮": "布丁的口感就像雲朵一樣",
-  "🍩": "甜甜圈的口感就像雲朵一樣",
-  "🍪": "餅乾的口感就像雲朵一樣",
+  "🍮": "只要夠Q，就能獨當一面",
+  "🍩": "中空設計，熱量依舊實心",
+  "🍪": "鬆脆外皮、邪惡內餡，完美小壞蛋",
 };
 
 const dessertDetails = {
@@ -99,29 +99,64 @@ export default function SlotMachine() {
   const spin = () => {
     setResult("");
     setSpinning(true);
-
+  
     let spins = [0, 0, 0];
     let maxSpins = [30, 35, 40];
     let currentSlots = [...slots];
-
+  
+    // 決定是否要作弊提高中獎率
+    const winChance = Math.random();
+    let forceMatch = false;
+    let forceTwoMatch = false;
+    let luckyIcon = "";
+  
+    if (winChance < 0.3) {
+      forceMatch = true;
+      luckyIcon = icons[Math.floor(Math.random() * icons.length)];
+    } else if (winChance < 0.6) {
+      forceTwoMatch = true;
+      luckyIcon = icons[Math.floor(Math.random() * icons.length)];
+    }
+  
+    // 隨機決定哪一格要不同（如果是兩格相同時用）
+    const mismatchIndex = Math.floor(Math.random() * 3);
+  
     const spinInterval = setInterval(() => {
       for (let i = 0; i < 3; i++) {
         if (spins[i] < maxSpins[i]) {
-          currentSlots[i] = icons[Math.floor(Math.random() * icons.length)];
+          // 是否即將停止
+          const isFinalSpin = spins[i] === maxSpins[i] - 1;
+  
+          if (isFinalSpin) {
+            if (forceMatch) {
+              currentSlots[i] = luckyIcon;
+            } else if (forceTwoMatch) {
+              currentSlots[i] = (i === mismatchIndex)
+                ? icons[Math.floor(Math.random() * icons.length)]
+                : luckyIcon;
+            } else {
+              currentSlots[i] = icons[Math.floor(Math.random() * icons.length)];
+            }
+          } else {
+            // 一般隨機轉動
+            currentSlots[i] = icons[Math.floor(Math.random() * icons.length)];
+          }
+  
           spins[i]++;
         }
       }
+  
       setSlots([...currentSlots]);
-
+  
       if (spins.every((count, i) => count >= maxSpins[i])) {
         clearInterval(spinInterval);
         setSpinning(false);
-
+  
         const unique = new Set(currentSlots);
         if (unique.size === 1) {
           setResult("Sweet Jackpot! +5");
           setScore((prev) => prev + 5);
-
+  
           const newIcon = currentSlots[0];
           if (!unlockedIcons.includes(newIcon)) {
             setUnlockedIcons((prev) => [...prev, newIcon]);
@@ -137,10 +172,10 @@ export default function SlotMachine() {
   };
 
   return (
-    <div className="w-screen min-h-screen bg-[#F0F9F8] flex flex-col sm:flex-row justify-center items-start overflow-auto gap-10 p-8">
+    <div className="w-screen min-h-screen sm:h-screen bg-[#F0F9F8] flex flex-col sm:flex-row justify-center items-start overflow-auto gap-10 p-8">
       {/* Slot Machine UI */}
-      <div className="w-full sm:w-1/2 sm:h-full">
-        <div className="bg-[#FFEEF4] border-[0.5px] border-black rounded-md w-full h-full p-4 flex-col justify-center items-center">
+      <div className="w-full sm:w-1/2 sm:h-full flex flex-col justify-center items-center">
+        <div className="bg-[#FFEEF4] border-[0.5px] border-black rounded-md w-full h-full p-4 flex flex-col justify-between items-stretch overflow-y-auto">
           <div className="bg-[#FFF8F5] border-[0.5px] border-black rounded-t-[100%] w-full h-[120px] flex items-center justify-center">
             <h1 className="text-5xl italic text-gray-700">sweet spin</h1>
           </div>
@@ -184,10 +219,10 @@ export default function SlotMachine() {
       
 
       {/* Icon Record Panel or Detail View */}
-      <div className="w-full sm:w-1/2 sm:h-full bg-[#FFEEF4] border-[0.5px] border-black text-black p-4 rounded-md space-y-4 overflow-y-auto">
+      <div className="w-full sm:w-1/2 sm:h-full bg-[#FFEEF4] border-[0.5px] border-black text-black p-4 rounded-md space-y-4 flex flex-col justify-between items-stretch overflow-y-auto">
         {/* 詳細介紹畫面 */}
         {detailIcon ? (
-          <div className="bg-[#FFF8F5] border-[0.5px] border-black rounded-xl flex flex-col h-full p-4">
+          <div className="h-full bg-[#FFF8F5] border-[0.5px] border-black rounded-xl flex flex-col p-4">
             {/* 返回按鈕 */}
             <button
               onClick={() => setDetailIcon(null)}
@@ -215,7 +250,7 @@ export default function SlotMachine() {
             return (
               <div
                 key={i}
-                className="flex items-center rounded overflow-hidden p-2 gap-[20px]"
+                className="flex items-center rounded overflow-hidden gap-[20px]"
               >
                 {/* 左側 Icon 區 */}
                 <div className='relative bg-[#FFF8F5] border-[0.5px] border-black flex items-center justify-center w-20 h-20 text-3xl rounded-[10px] p-2'>
