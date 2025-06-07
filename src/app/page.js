@@ -1,12 +1,10 @@
 "use client";
-
 import { useState } from "react";
 
-const icons = ["🍫", "🍦", "🧁", "🍮", "🍩", "🍪"];
+const icons = ["🍫", "🧁", "🍮", "🍩", "🍪"];
 
 const dessertImages = {
   "🍫": "/images/chocolate.svg",
-  "🍦": "/images/icecream.svg",
   "🧁": "/images/cupcake.svg",
   "🍮": "/images/pudding.svg",
   "🍩": "/images/donut.svg",
@@ -15,7 +13,6 @@ const dessertImages = {
 
 const dessertTitle = {
   "🍫": "巧克力 Chocolate",
-  "🍦": "冰淇淋 Ice Cream",
   "🧁": "杯子蛋糕 Cupcakes",
   "🍮": "布丁 Pudding",
   "🍩": "甜甜圈 Donut",
@@ -24,7 +21,6 @@ const dessertTitle = {
 
 const dessertSubtitle = {
   "🍫": "苦與甜的完美詐騙",
-  "🍦": "夏天的救贖",
   "🧁": "吃兩個剛剛好，吃三個也不罪惡",
   "🍮": "只要夠Q，就能獨當一面",
   "🍩": "中空設計，熱量依舊實心",
@@ -40,15 +36,6 @@ const dessertDetails = {
 
 白巧克力不含可可固體：
 白巧克力實際上不含可可固體，因此技術上並非真正的巧克力。`,
-
-  "🍦": `牛奶用量：
-製作1加侖的冰淇淋需要約12磅的牛奶。
-
-舔食次數：
-平均需要50次舔食才能吃完一球冰淇淋。
-
-最受歡迎口味：
-香草是最受歡迎的冰淇淋口味，其次是巧克力。`,
 
   "🧁": `名稱由來：
 「Cupcake」這個名稱源於19世紀，因為這種蛋糕是用杯子量取材料，並在杯子中烘焙而得名。
@@ -175,124 +162,122 @@ export default function SlotMachine() {
     <div className="w-screen min-h-screen sm:h-screen bg-[#F0F9F8] flex flex-col sm:flex-row justify-center items-start overflow-auto gap-10 p-8">
       {/* Slot Machine UI */}
       <div className="w-full sm:w-1/2 sm:h-full flex flex-col justify-center items-center">
-        <div className="bg-[#FFEEF4] border-[0.5px] border-black rounded-md w-full h-full p-4 flex flex-col justify-between items-stretch overflow-y-auto">
-          <div className="bg-[#FFF8F5] border-[0.5px] border-black rounded-t-[100%] w-full h-[120px] flex items-center justify-center">
-            <h1 className="text-5xl italic text-gray-700">sweet spin</h1>
-          </div>
 
-          <div className="h-[40px] bg-[#FDDCE5] border-[0.5px] border-black rounded-[20px] flex justify-center items-center gap-2 gap-x-4 my-4">
-            {[...Array(5)].map((_, i) => (
-              <div key={i} className="w-[20px] h-[20px] bg-[#FFF8F5] border-[0.5px] border-black rounded-full mx-3"></div>
-            ))}
-          </div>
+        <div className="relative h-full aspect-[31/50] flex flex-col justify-center items-center bg-contain bg-no-repeat bg-center overflow-y-auto"
+        style={{ backgroundImage: "url('/images/slotmachine.svg')" }}>
 
-          <div className="h-[200px] bg-[#FDDCE5] border-[0.5px] border-black rounded-[20px] flex justify-center items-center gap-4 p-4 mb-4 text-4xl">
+          <div className="absolute top-[37%] w-843/1000 aspect-[1000/416] rounded-[20px] flex justify-center items-center gap-6 p-4 text-4xl">
             {slots.map((icon, index) => (
               <div
                 key={index}
-                className="w-1/3 h-full bg-[#FFF8F5] border-[0.5px] border-black rounded flex items-center justify-center p-2"
+                className="w-1/3 h-full rounded flex items-center justify-center p-2"
               >
                 <img src={dessertImages[icon]} alt={dessertTitle[icon]} className="w-full h-full object-contain" />
               </div>
             ))}
           </div>
 
-          <div className="flex justify-between items-center mb-4 text-sm text-black gap-3">
-            <span className="w-1/5 h-[40px] bg-[#FFF8F5] border-[0.5px] border-black rounded-[10px] flex justify-center items-center
+          <div className="absolute top-[61.5%] w-843/1000 flex justify-between items-center text-sm font-semibold text-[#71523E]">
+            <span className="w-6/25 h-[40px] rounded-[10px] flex justify-center items-center
             ">{score} </span>
             <button
               onClick={spin}
               disabled={spinning}
-              className="w-3/5 h-[40px] bg-[#FFF8F5] border-[0.5px] border-black rounded-[10px] italic disabled:opacity-50 font-extrabold"
+              className="w-11/25 h-[40px] rounded-[10px] italic disabled:opacity-50 font-extrabold"
             >
               {spinning ? "spinning..." : "start"}
             </button>
-            <span className="w-1/5 h-[40px] bg-[#FFF8F5] border-[0.5px] border-black rounded-[10px] flex justify-center items-center
+            <span className="w-6/25 h-[40px] rounded-[10px] flex justify-center items-center
             ">{unlockedIcons.length}</span>
           </div>
 
-          <div className="h-[160px] bg-[#FFF8F5] border-[0.5px] border-black rounded-[20px] flex items-center justify-center text-black text-center text-xl px-2">
+          <div className="absolute top-[70%] w-843/1000 aspect-[1000/236] rounded-[20px] flex items-center justify-center text-[#71523E] font-bold text-center text-xl">
             {result}
           </div>
         </div>
+
       </div>
       
 
       {/* Icon Record Panel or Detail View */}
-      <div className="w-full sm:w-1/2 sm:h-full bg-[#FFEEF4] border-[0.5px] border-black text-black p-4 rounded-md space-y-4 flex flex-col justify-between items-stretch overflow-y-auto">
-        {/* 詳細介紹畫面 */}
-        {detailIcon ? (
-          <div className="h-full bg-[#FFF8F5] border-[0.5px] border-black rounded-xl flex flex-col p-4">
-            {/* 返回按鈕 */}
-            <button
-              onClick={() => setDetailIcon(null)}
-              className="w-[24px] bg-[#FFEEF4] border-[0.5px] border-black rounded-full px-[2px]"
-            >
-              ← 
-            </button>
-
-            <div className="w-full h-full flex flex-col justify-start items-start flex-1">
-              <p className="w-full text-right text-2xl font-semibold">
-                {dessertTitle[detailIcon] || "尚無詳細介紹。"}
-              </p>
-              <p className="w-full text-sm font-light text-right whitespace-pre-line font-noto mb-4">
-                {dessertSubtitle[detailIcon] || "尚無詳細介紹。"}
-              </p>
-              <p className="text-sm font-light text-left whitespace-pre-line font-noto">
-                {dessertDetails[detailIcon] || "尚無詳細介紹。"}
-              </p>
-            </div>
-          </div>
-        ) : (
-          // 圖鑑模式
-          icons.map((icon, i) => {
-            const isUnlocked = unlockedIcons.includes(icon);
-            return (
-              <div
-                key={i}
-                className="flex items-center rounded overflow-hidden gap-[20px]"
+      <div className="w-full sm:w-1/2 sm:h-full text-[#71523E] flex flex-col justify-center items-center overflow-y-auto">
+        
+        <div className="h-full aspect-[16/25] flex flex-col justify-between items-center bg-contain bg-no-repeat bg-center
+        p-5 space-y-[20px] overflow-y-auto"
+          style={{ backgroundImage: "url('/images/rightbg.svg')" }}>
+          
+          {/* 詳細介紹畫面 */}
+          {detailIcon ? (
+            <div className="h-full rounded-xl flex flex-col bg-contain bg-no-repeat bg-center p-4"
+            style={{ backgroundImage: "url('/images/innerbg.svg')" }}>
+              {/* 返回按鈕 */}
+              <button
+                onClick={() => setDetailIcon(null)}
+                className="w-[40px] h-[40px] bg-contain bg-no-repeat bg-center"
+                style={{ backgroundImage: "url('/images/arrowback.svg')" }}
               >
-                {/* 左側 Icon 區 */}
-                <div className='relative bg-[#FFF8F5] border-[0.5px] border-black flex items-center justify-center w-20 h-20 text-3xl rounded-[10px] p-2'>
-                  <img src={dessertImages[icon]} alt={dessertTitle[icon]} className="w-full h-full object-contain" />
-                  {!isUnlocked && (
-                    <div className="absolute inset-0 bg-[#FFF8F5]/60 rounded-[10px] pointer-events-none" />
-                  )}
-                </div>
+              </button>
 
-                {/* 右側內容區 */}
+              <div className="w-full h-full flex flex-col justify-start items-start flex-1 gap-5">
+                <p className="w-full text-right text-2xl font-semibold">
+                  {dessertTitle[detailIcon] || "尚無詳細介紹。"}
+                </p>
+                <p className="text-sm font-light text-left whitespace-pre-line font-noto">
+                  {dessertDetails[detailIcon] || "尚無詳細介紹。"}
+                </p>
+              </div>
+            </div>
+          ) : (
+
+            // 圖鑑模式
+            icons.map((icon, i) => {
+              const isUnlocked = unlockedIcons.includes(icon);
+              return (
                 <div
-                  className={`border-[0.5px] border-black flex-1 flex justify-center items-center w-20 h-20 text-center rounded-[10px] flex-col p-3 ${
-                    isUnlocked ? "bg-[#FFF8F5] text-black" : "bg-[#FDDCE5] text-black"
-                  }`}
+                  key={i}
+                  className="w-full h-4/25 flex justify-between items-center rounded overflow-hidden gap-[20px] m-0"
                 >
-                  {isUnlocked ? (
-                    <>
-                      <div className="w-full h-full flex justify-between items-baseline">
-                        <div className="w-full h-full flex flex-col gap-y-2">
-                          <div className="text-left">
-                            {dessertTitle[icon] || "尚無詳細介紹。"}
-                          </div>
-                          <div className="text-left text-sm font-light font-noto">
-                            {dessertSubtitle[icon] || "尚無詳細介紹。"}
-                          </div>
+
+                  {/* 左側 Icon 區 */}
+                  <div className='relative flex items-center justify-center h-full aspect-[1/1] bg-cover p-2'
+                  style={{ backgroundImage: "url('/images/leftarea.svg')" }}>
+                    <img src={dessertImages[icon]} alt={dessertTitle[icon]} className="w-full h-full object-contain" />
+                    {!isUnlocked && (
+                      <div className="absolute inset-0 bg-[#FAECDE]/60 rounded-[10px] pointer-events-none" />
+                    )}
+                  </div>
+
+                  {/* 右側內容區 */}
+                  <div
+                    className={`flex justify-center items-center h-full aspect-[3/1] rounded-[10px] p-3 
+                      bg-cover bg-no-repeat bg-center overflow-hidden
+                      ${isUnlocked
+                        ? "bg-[url('/images/rightarea2.svg')]"
+                        : "bg-[url('/images/rightarea1.svg')]"
+                      }`}
+                  >
+                    {isUnlocked ? (
+                      <>
+                        <div className="flex-1 min-w-0 text-left text-[16px] leading-snug break-words">
+                          {dessertTitle[icon] || "尚無詳細介紹。"}
                         </div>
+
                         <button
                           onClick={() => setDetailIcon(icon)}
-                          className="border-[0.5px] border-black rounded-full bg-[#FDDCE5] px-[2px]"
-                        >
-                          →
-                        </button>
-                      </div>
-                    </>
-                  ) : (
-                    <span>?</span>
-                  )}
+                          className="w-[32px] h-[32px] ml-2 flex-shrink-0 bg-contain bg-no-repeat bg-center"
+                          style={{ backgroundImage: "url('/images/arrow.svg')" }}
+                        />
+                      </>
+                    ) : (
+                      <span>?</span>
+                    )}
+                  </div>
                 </div>
-              </div>
-            );
-          })
-        )}
+              );
+            })
+          )}
+        </div>
+        
       </div>
     </div>
   );
