@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import InstructionModal from './components/TutorialModel.js';
 
 const icons = ["🍫", "🧁", "🍮", "🍩", "🍪"];
 
@@ -76,6 +77,8 @@ const dessertDetails = {
 
 
 export default function SlotMachine() {
+  const [showInstructions, setShowInstructions] = useState(true);
+
   const [detailIcon, setDetailIcon] = useState(null);
   const [slots, setSlots] = useState(["\uD83C\uDF70", "\uD83C\uDF70", "\uD83C\uDF70"]);
   const [result, setResult] = useState("");
@@ -197,7 +200,6 @@ export default function SlotMachine() {
         </div>
 
       </div>
-      
 
       {/* Icon Record Panel or Detail View */}
       <div className="w-full sm:w-1/2 sm:h-full text-[#71523E] flex flex-col justify-center items-center overflow-y-auto">
@@ -258,7 +260,7 @@ export default function SlotMachine() {
                   >
                     {isUnlocked ? (
                       <>
-                        <div className="flex-1 min-w-0 text-left text-[16px] leading-snug break-words">
+                        <div className="flex-1 min-w-0 text-left text-[20px] leading-snug break-words">
                           {dessertTitle[icon] || "尚無詳細介紹。"}
                         </div>
 
@@ -279,6 +281,10 @@ export default function SlotMachine() {
         </div>
         
       </div>
+      {showInstructions && (
+        <InstructionModal onFinish={() => setShowInstructions(false)} />
+      )}
+
     </div>
   );
 }
