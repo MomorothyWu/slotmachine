@@ -224,7 +224,7 @@ export default function SlotMachine() {
       </div>
 
       {/* Icon Record Panel or Detail View */}
-      <div className="w-full sm:w-1/2 sm:h-full text-[#71523E] flex flex-col justify-center items-center overflow-y-auto">
+      <div className="w-full sm:w-1/2 sm:h-full h-[580px] text-[#71523E] flex flex-col justify-center items-center overflow-y-auto">
         
         <div className="h-full aspect-[16/25] flex flex-col justify-between items-center bg-contain bg-no-repeat bg-center
         p-5 space-y-[20px] overflow-y-auto"
@@ -232,12 +232,12 @@ export default function SlotMachine() {
           
           {/* 詳細介紹畫面 */}
           {detailIcon ? (
-            <div className="h-full rounded-xl flex flex-col bg-contain bg-no-repeat bg-center p-4"
+            <div className="relative h-full rounded-xl flex flex-col bg-contain bg-no-repeat bg-center p-4 overflow-y-auto"
             style={{ backgroundImage: "url('/images/innerbg.svg')" }}>
               {/* 返回按鈕 */}
               <button
                 onClick={() => setDetailIcon(null)}
-                className="w-[40px] h-[40px] bg-contain bg-no-repeat bg-center"
+                className="absolute top-4 left-4  w-[40px] h-[40px] bg-contain bg-no-repeat bg-center"
                 style={{ backgroundImage: "url('/images/arrowback.svg')" }}
               >
               </button>
