@@ -186,7 +186,7 @@ export default function SlotMachine() {
   return (
     <div className="w-screen min-h-screen sm:h-screen bg-[#F0F9F8] flex flex-col sm:flex-row justify-center items-start overflow-auto gap-10 p-8">
       {/* Slot Machine UI */}
-      <div className="w-full sm:w-1/2 sm:h-full flex flex-col justify-center items-center">
+      <div className="w-full sm:w-1/2 sm:h-full h-[600px] flex flex-col justify-center items-center">
 
         <div className="relative h-full aspect-[31/50] flex flex-col justify-center items-center bg-contain bg-no-repeat bg-center overflow-y-auto"
         style={{ backgroundImage: "url('/images/slotmachine.svg')" }}>
